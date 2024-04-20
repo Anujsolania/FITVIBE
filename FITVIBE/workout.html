@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalized Workout Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    label {
+      margin-right: 10px;
+    }
+    select, button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    select {
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .workout-chart {
+      margin-top: 20px;
+      text-align: left;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    ul li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Personalized Workout Generator</h1>
+    <label for="goal">Fitness Goal:</label>
+    <select id="goal">
+      <option value="strength">Strength</option>
+      <option value="endurance">Endurance</option>
+      <option value="weight-loss">Weight Loss</option>
+    </select><br>
+    <label for="exercise-type">Preferred Exercise Type:</label>
+    <select id="exercise-type">
+      <option value="push-ups">Push-ups</option>
+      <option value="sit-ups">Sit-ups</option>
+      <option value="squats">Squats</option>
+      <option value="plank">Plank</option>
+      <!-- Add more exercise types as needed -->
+    </select><br>
+    <label for="intensity">Intensity Level:</label>
+    <select id="intensity">
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+    </select><br>
+    <button onclick="generateWorkout()">Generate Workout</button>
+    <div class="workout-chart">
+      <h2>Workout Chart</h2>
+      <ul id="workout-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    var exercises = {
+      strength: [
+        { name: 'Push-ups', reps: 15, sets: 3 },
+        { name: 'Sit-ups', reps: 20, sets: 3 },
+        { name: 'Squats', reps: 15, sets: 3 },
+        { name: 'Plank', reps: '30 seconds', sets: 3 }
+      ],
+      endurance: [
+        { name: 'Running', reps: '1 mile', sets: 1 },
+        { name: 'Cycling', reps: '30 minutes', sets: 1 },
+        { name: 'Jumping Jacks', reps: 50, sets: 3 }
+      ],
+      "weight-loss": [
+        { name: 'Burpees', reps: 10, sets: 3 },
+        { name: 'Mountain Climbers', reps: 20, sets: 3 },
+        { name: 'High Knees', reps: 30, sets: 3 },
+        { name: 'Jump Rope', reps: '2 minutes', sets: 3 }
+      ]
+    };
+
+    function generateWorkout() {
+      var goal = document.getElementById('goal').value;
+      var exerciseType = document.getElementById('exercise-type').value;
+      var intensity = document.getElementById('intensity').value;
+      
+      var workoutList = document.getElementById('workout-list');
+      workoutList.innerHTML = '';
+
+      var selectedExercises = exercises[goal].filter(function(exercise) {
+        return exercise.name.toLowerCase() === exerciseType.toLowerCase();
+      });
+
+      if (selectedExercises.length === 0) {
+        alert('No matching exercise found for your preference.');
+        return;
+      }
+
+      var workout = selectedExercises[0];
+
+      var listItem = document.createElement('li');
+      listItem.innerHTML = "<strong>" + workout.name + "</strong>: " + workout.reps + " reps, " + workout.sets + " sets";
+      workoutList.appendChild(listItem);
+
+      // Adjust intensity
+      if (intensity === 'medium') {
+        listItem.innerHTML += " (Increase reps/sets)";
+      } else if (intensity === 'high') {
+        listItem.innerHTML += " (Add additional exercises)";
+      }
+    }
+  </script>
+</body>
+</html>
